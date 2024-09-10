@@ -3,12 +3,15 @@ package com.kh.spring.board.service;
 import java.util.ArrayList;
 
 import com.kh.spring.board.model.vo.Board;
+import com.kh.spring.board.model.vo.Reply;
+import com.kh.spring.common.model.vo.PageInfo;
 
 public interface BoardService {
 	
 	/* 게시판 목록 조회 (+ 페이징 처리) --> R (select) */
 	int selectListCount();
-	ArrayList<Board> selectList(/* 페이징 관련 데이터 */);
+	
+	ArrayList<Board> selectList(PageInfo pi);
 	
 	/* 게시판 작성 --> C(insert) */
 	int insertBoard(Board b);
@@ -24,7 +27,7 @@ public interface BoardService {
 	int deleteBoard(int boardNo);
 	
 	/* 댓글 목록 조회 --> (ajax), R(select) */
-	ArrayList</* 댓글 관련 객체 */> selectReplyList(int boardNo);
+	ArrayList<Reply> selectReplyList(int boardNo);
 	
 	/* 댓글 등록(작성) --> (ajax), C(insert) */
 	int insertReply(/* 댓글 관련 객체 */);

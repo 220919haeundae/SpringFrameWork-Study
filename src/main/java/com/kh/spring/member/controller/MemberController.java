@@ -56,9 +56,10 @@ public class MemberController {
 	 *       스프링 컨테이너에서 해당 메소드 호출 시 자동으로 객체를 생성하여 전달해줌
 	 */
 	/*
-	 * @RequestMapping("/login") public String loginMember(HttpServletRequest
-	 * request) { String id = request.getParameter("userId"); String pwd =
-	 * request.getParameter("userPwd");
+	 * @RequestMapping("/login")
+	 * public String loginMember(HttpServletRequest request){
+	 * 	String id = request.getParameter("userId");
+	 *  String pwd = request.getParameter("userPwd");
 	 * 
 	 * System.out.println("ID ---> " + id); System.out.println("pwd ---> " + pwd);
 	 * 
