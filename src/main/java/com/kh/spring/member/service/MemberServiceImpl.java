@@ -22,8 +22,10 @@ public class MemberServiceImpl implements MemberService {
 	private final MemberDao mDao;
 
 	/*
-	 * @Autowired public MemberServiceImpl(SqlSessionTemplate sqlSession, MemberDao
-	 * mDao) { this.sqlSession = sqlSession; this.mDao = mDao; } => 생성자 주입 방식
+	 * @Autowired 
+	 * public MemberServiceImpl(SqlSessionTemplate sqlSession, MemberDaomDao) {
+	 * 			this.sqlSession = sqlSession; this.mDao = mDao;
+	 * } => 생성자 주입 방식
 	 */
 
 	@Override

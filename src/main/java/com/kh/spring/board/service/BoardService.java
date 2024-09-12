@@ -18,6 +18,7 @@ public interface BoardService {
 	
 	/* 게시글 상세 조회 --> R(select) + U (update) */
 	int increaseCount(int boardNo);		// 조회수 증가
+	
 	Board selectBoard(int boardNo);
 
 	/* 게시글 수정 --> U (update) */

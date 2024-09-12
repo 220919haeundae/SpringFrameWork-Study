@@ -1,0 +1,48 @@
+* 현재 브라우저 페이지의 주소가 다음과 같을 경우 각 요청에 맞는 경로를 작성해주세요.
+
+[현재 브라우저 페이지 주소]
+=> http://localhost:8888/test/
+
+[프로젝트 구조]
+MyPage/
+	src/
+		main/
+			java/
+			webapp/
+				META-INF/
+				views/
+					header.jsp
+					footer.jsp
+					page1/
+						practice1.jsp
+						practice2.jsp
+					page2/
+						board.jsp
+				WEB-INF/
+				index.jsp
+
+[1] practice1.jsp 페이지의 절대 경로를 작성해주세요.
+/MyPage/views/page1/practice1.jsp
+
+[2] footer.jsp 페이지의 절대 경로를 작성해주세요.
+/MyPage/views/footer.jsp
+
+[3] 현재 페이지에서 board.jsp 페이지로 이동하기 위한 상대 경로를 작성해주세요.
+views/page2/board.jsp
+
+[4] index.jsp 페이지의 상대 경로를 practice2.jsp 페이지에서 작성해주세요.
+
+
+[5] 현재 페이지에서 header.jsp 페이지로 이동하기 위한 절대 경로를 작성해주세요.
+
+[6] practice2.jsp 페이지에서 footer.jsp 페이지로 이동하기 위한 상대 경로를 작성해주세요.
+
+---------------------------------------------------
+
+[7] JSP 풀네임을 작성해주세요.
+
+[8] JSP에서 자바 코드를 작성하기 위한 방법을 작성해주세요. ( 문자열 변수 name 에 Karina 저장 )
+
+[9] JSP에서 변수의 값을 출력하기 위한 방법을 작성해주세요. 
+
+[10] 서블릿에서 요청 시 전달된 데이터를 추출할 때 사용하는 메소드를 작성해주세요.

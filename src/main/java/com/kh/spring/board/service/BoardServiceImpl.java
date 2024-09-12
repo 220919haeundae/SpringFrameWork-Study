@@ -40,8 +40,9 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public int insertBoard(Board b) {
-		// TODO Auto-generated method stub
-		return 0;
+		
+
+		return boardDao.insertBoard(sqlSession, b);
 	}
 
 
@@ -54,8 +55,9 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public Board selectBoard(int boardNo) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		
+		return boardDao.selectBoard(sqlSession, boardNo);
 	}
 
 

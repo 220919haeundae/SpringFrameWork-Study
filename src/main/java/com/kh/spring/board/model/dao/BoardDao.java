@@ -12,11 +12,6 @@ import com.kh.spring.common.model.vo.PageInfo;
 @Repository
 public class BoardDao {
 	
-	public int selectListCount(SqlSessionTemplate sqlSession) {
-		return sqlSession.selectOne("boardMapper.selectListCount");
-	}
-	
-	
 	public ArrayList<Board> selectList(SqlSessionTemplate sqlSession, PageInfo pi) {
 		
 		// offset 계산
@@ -27,5 +22,22 @@ public class BoardDao {
 		return (ArrayList)sqlSession.selectList("boardMapper.selectList", null, rowBounds);
 		
 		
+	}
+
+
+	public int insertBoard(SqlSessionTemplate sqlSession, Board b) {
+
+		
+		return sqlSession.insert("boardMapper.insertBoard", b);
+	}
+
+
+	public int selectListCount(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("boardMapper.selectListCount");
+	}
+
+
+	public Board selectBoard(SqlSessionTemplate sqlSession, int boardNo) {
+		return sqlSession.selectOne("boardMapper", boardNo);
 	}
 }
