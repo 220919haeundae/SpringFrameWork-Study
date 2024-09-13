@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.spring.board.model.vo.Board;
+import com.kh.spring.board.model.vo.Reply;
 import com.kh.spring.board.service.BoardService;
 import com.kh.spring.common.model.vo.PageInfo;
 import com.kh.spring.common.template.Pagination;
@@ -98,12 +99,13 @@ public class BoardController {
 			
 		}
 		
+		
+		
 		//DB에 게시글 정보 저장(첨부파일 유/무 상관없이 처리)
 		int result = bService.insertBoard(b);
 		
 		if(result > 0) {	// 게시글 등록 성공
 			session.setAttribute("alertMsg", "게시물 등록 성공");
-			
 			return "redirect: list";
 		} else {  // 게시글 등록 실패
 			model.addAttribute("errorMsg", "게시글 등록 실패");
@@ -114,13 +116,54 @@ public class BoardController {
 		
 	}
 	
-	@RequestMapping("detail")
-	public String detailPage(int boardNo, Model model) {
+	@RequestMapping("/detail")
+	public String detailBoard(int boardNo, Model model) {
+		
+		int result = bService.increaseCount(boardNo);
+		
+		if(result > 0) {
+			// * 조회수 증가 성공 시
+			//		1) 해당 게시글 정보를 조회
+			Board b = bService.selectBoard(boardNo);
+			ArrayList<Reply> rArr = bService.selectReplyList(boardNo);
+			//		2) 조회된 정보를 request 영역에 저장
+			model.addAttribute("b", b);
+			model.addAttribute("rArr", rArr);
+			//		3) 상세페이지로 응답
+			return "board/boardDetail";
+		} else {
+			// * 조회수 증가 실패 시
+			//		1) 에러메시지를 request 영역에 저장
+			model.addAttribute("errorMsg", "게시물 조회에 실패했습니다.");
+			//		2) 에러페이지 응답
+			return "common/errorPage";
+		}
+		
+		
+	}
+	
+	@RequestMapping("/updateForm")
+	public String updateForm(int boardNo, Model model) {
+		// 게시글 번호(boardNo)에 해당하는 데이터 조회
 		Board b = bService.selectBoard(boardNo);
 		
-		model.addAttribute(b);
+		model.addAttribute("board", b);
 		
-		return "board/boardDetail";
+		if(b != null) {
+			return "board/boardUpdate";
+		} else {
+			model.addAttribute("errorMsg", "게시글을 수정할 수 없습니다.");
+			return "common/errorPage";
+		}
+	}
+	
+	@RequestMapping("update")
+	public String updateBoard(Board board, MultipartFile upfile) {
+		
+		System.out.println(board);
+		System.out.println(upfile);
+		
+		return "";
 	}
 	
 	

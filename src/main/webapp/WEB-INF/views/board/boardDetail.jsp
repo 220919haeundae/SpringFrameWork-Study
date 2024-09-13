@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -36,14 +37,14 @@
         <div class="inner-area">
             <h2>게시글 상세보기</h2>
             <br>
-            <a href="" class="btn btn-secondary" style="float:right;">목록보기</a>
+            <a href="list" class="btn btn-secondary" style="float:right;">목록보기</a>
             <br><br>
 
             <table align="center" class="table">
                 <tr>
-                    <th width="100">${b.boardTitle}</th>
+                    <th width="100">제목</th>
                     <td colspan="3">
-                        게시판제목@@
+                        ${b.boardTitle}
                     </td>
                 </tr>
                 <tr>
@@ -53,13 +54,21 @@
                     </td>
                     <th>작성일</th>
                     <td>
-                        2024-04-01@@
+                        ${ b.createDate }
                     </td>
                 </tr>
                 <tr>
                     <th>첨부파일</th>
                     <td colspan="3">
-                        파일이름.png
+                    	<c:choose>
+                    	<c:when test="${ !empty b.originName }">
+                    		<a href="/spring/${ b.changeName }" download="${ b.originName }">${b.originName}</a>
+                    	</c:when>
+                    	<c:otherwise>
+                    		첨부파일 없음
+                    	</c:otherwise>
+                    	</c:choose>
+                        
                     </td>
                 </tr>
                 <tr>
@@ -69,7 +78,7 @@
                 <tr>
                     <td colspan="4">
                         <p style="height:150px;">
-                            내용입니당@@@@@
+                            ${b.boardContent}
                         </p>
                     </td>
                 </tr>
@@ -78,10 +87,29 @@
 
             <div align="center">
                 <!-- 작성자와 로그인한 계정이 동일한 경우만 표시 -->
-                <a href="" class="btn btn-primary">수정</a>
-                <a href="" class="btn btn-danger">삭제</a>
+                <c:if test="${ loginUser.userId == b.boardWriter }">
+                <a class="btn btn-primary" onclick="postSubmit('update');">수정</a>
+                <a class="btn btn-danger" onclick="postSubmit('delete');">삭제</a>
+                </c:if>
             </div>
             <br><br>
+			<form action="" method="post" id="postForm">
+	            <input type="hidden" name="boardNo" value="${ b.boardNo }"/>
+	        </form>
+
+			<script>
+			
+				function postSubmit(type) {
+					const postForm = document.getElementById('postForm');
+					
+					if(type = 'update') {
+						postForm.action = 'updateForm';
+					} else if(type = 'delete') {
+						postForm.action = "delete";
+					}
+					postForm.submit();
+				}
+			</script>
 
             <table id="replyArea" class="table" align="center">
                 <thead>
@@ -94,25 +122,17 @@
                         </th>
                     </tr>
                     <tr>
-                        <td colspan="3">댓글 (<span id="rcount">3</span>)</td>
+                        <td colspan="3">댓글 (<span id="rcount">${rArr.size()}</span>)</td>
                     </tr>
                 </thead>
                 <tbody>
+                	<c:forEach var="r" items="${ rArr }">
                     <tr>
-                        <th>user02</th>
-                        <td>댓글-----내용</td>
-                        <td>2024-04-15</td>
+                        <th>${ r.replyWriter }</th>
+                        <td>${ r.replyContent }</td>
+                        <td>${ r.createDate }</td>
                     </tr>
-                    <tr>
-                        <th>user01</th>
-                        <td>ㅋㅋㅋㅋㅋㅋㅋ</td>
-                        <td>2024-04-13</td>
-                    </tr>
-                    <tr>
-                        <th>admin</th>
-                        <td>댓글테스트ㅋㅋ</td>
-                        <td>2024-04-07</td>
-                    </tr>                         
+                    </c:forEach>
                 </tbody>
             </table>     
             <br><br>

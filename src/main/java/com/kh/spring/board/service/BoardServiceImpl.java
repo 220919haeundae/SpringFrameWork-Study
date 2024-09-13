@@ -48,14 +48,13 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public int increaseCount(int boardNo) {
-		// TODO Auto-generated method stub
-		return 0;
+		
+		return boardDao.increaseCount(sqlSession, boardNo);
 	}
 
 
 	@Override
 	public Board selectBoard(int boardNo) {
-		
 		
 		return boardDao.selectBoard(sqlSession, boardNo);
 	}
@@ -77,8 +76,7 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public ArrayList<Reply> selectReplyList(int boardNo) {
-		// TODO Auto-generated method stub
-		return null;
+		return boardDao.selectListReply(sqlSession, boardNo);
 	}
 
 
