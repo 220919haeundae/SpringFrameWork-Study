@@ -102,10 +102,10 @@
 				function postSubmit(type) {
 					const postForm = document.getElementById('postForm');
 					
-					if(type = 'update') {
+					if(type == 'update') {
 						postForm.action = 'updateForm';
-					} else if(type = 'delete') {
-						postForm.action = "delete";
+					} else if(type == 'delete') {
+						postForm.action = 'delete';
 					}
 					postForm.submit();
 				}
@@ -140,6 +140,27 @@
 
 
     </div>
+
+	<script>
+		$(function() {
+			// 해당 게시글의 댓글 목록 조회(ajax)
+			selectReplyList();
+		});
+		
+		function selectReplyList() {
+			$.ajax({
+				url: "rlist",
+				data: {boardNo: ${b.boardNo}},
+				success: function(result) {
+					console.log(result);
+				},
+				error: function(err) {
+					console.log("댓글 조회 실패!");
+					console.log(err);
+				}
+			});
+		}
+	</script>
 
     <%-- footer --%>
     <jsp:include page="../common/footer.jsp" />    

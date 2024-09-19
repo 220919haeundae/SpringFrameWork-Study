@@ -47,6 +47,9 @@
                             <c:choose>
                             <c:when test = "${ !empty board.originName }">
                             <a href="/spring/${ board.changeName }" download="${ board.originName }">${ board.originName }</a>
+                            <%-- 첨부파일이 있는 경우 수정요청 시 전달 --%>
+                            <input type="hidden" name="originName" value="${ board.originName }" />
+                            <input type="hidden" name="changeName" value="${ board.changeName }" />
                             </c:when>
                             <c:otherwise>
                             	없음
