@@ -237,10 +237,23 @@ public class BoardController {
 	public String selectReplyList(int boardNo, HttpServletResponse response) {
 		//어떤 게시글의 댓글 목록 조회 => ArrayList<Reply>
 		ArrayList<Reply> list = bService.selectReplyList(boardNo);
-		
-		
 		return new Gson().toJson(list);
 		
+	}
+	
+	@ResponseBody
+	@RequestMapping("/rinsert")
+	public String insertReply(Reply r) {
+		//System.out.println(r);
+		int result = bService.insertReply(r);
+		return result > 0 ? "success" : "failed";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/top5", produces = "application/json; charset=utf-8")
+	public String selectBoardTop5() {
+		
+		return new Gson().toJson(bService.selectBoardTop5());
 	}
 	
 }

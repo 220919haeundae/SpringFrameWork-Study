@@ -79,9 +79,15 @@ public class BoardServiceImpl implements BoardService {
 
 
 	@Override
-	public int insertReply() {
-		// TODO Auto-generated method stub
-		return 0;
+	public int insertReply(Reply r) {
+		
+		return boardDao.insertReply(sqlSession, r);
+	}
+
+
+	@Override
+	public ArrayList<Board> selectBoardTop5() {
+		return boardDao.selectBoardTop5(sqlSession);
 	}
 
 }

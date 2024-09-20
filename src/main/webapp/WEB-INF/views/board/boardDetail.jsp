@@ -113,26 +113,38 @@
 
             <table id="replyArea" class="table" align="center">
                 <thead>
+                <%-- 로그인한 사용자만 댓글을 작성할 수 있도록
+                	=> 만약 로그인을 하지 않았다면 입력창 부분에 '로그인 후 이용가능합니다.' 메시지를 표시하고 입려갛지 못하도록
+                		[등록 버튼을 비활성화]
+                 --%>
+                	<c:choose>
+                	<c:when test = "${!empty loginUser}">
                     <tr>
                         <th colspan="2">
-                            <textarea name="" id="content" cols="55" rows="2" class="form-control" style="resize: none;"></textarea>
+                            <textarea name="replyContent" id="content" cols="55" rows="2" class="form-control" style="resize: none;"></textarea>
                         </th>
                         <th style="vertical-align:middle;">
-                            <button class="btn btn-secondary">등록</button>
+                            <button class="btn btn-secondary" onclick="addReply();">등록</button>
                         </th>
                     </tr>
+                    </c:when>
+                    <c:otherwise>
                     <tr>
-                        <td colspan="3">댓글 (<span id="rcount">${rArr.size()}</span>)</td>
+                        <th colspan="2">
+                            <textarea name="" id="content" cols="55" rows="2" class="form-control" style="resize: none;" readonly placeholder="로그인 후 이용 가능합니다."></textarea>
+                        </th>
+                        <th style="vertical-align:middle;">
+                            <button class="btn btn-secondary" disabled>등록</button>
+                        </th>
+                    </tr>
+                    </c:otherwise>
+                    </c:choose>
+                    <tr>
+                        <td colspan="3">댓글 (<span id="rcount">0</span>)</td>
                     </tr>
                 </thead>
                 <tbody>
-                	<c:forEach var="r" items="${ rArr }">
-                    <tr>
-                        <th>${ r.replyWriter }</th>
-                        <td>${ r.replyContent }</td>
-                        <td>${ r.createDate }</td>
-                    </tr>
-                    </c:forEach>
+                	
                 </tbody>
             </table>     
             <br><br>
@@ -153,6 +165,24 @@
 				data: {boardNo: ${b.boardNo}},
 				success: function(result) {
 					console.log(result);
+					
+					// 댓글 목록이 있을 경우 화면에 표시
+					// => 댓글 목록이 없을 경우 : 빈 배열
+					// => 댓글 목록이 있는 경우 : 배열에 데이터 담겨져 있음
+					if(result != null & result.length > 0) {
+						let replyValue = "";
+						for(let r of result) {
+							replyValue += "<tr>"
+											+ "<th>" + r.replyWriter + "</th>"
+											+ "<td>" + r.replyContent + "</td>"
+											+ "<td>" + r.createDate + "</td>"
+											+ "</tr>";
+							
+							
+						}
+						$("#replyArea tbody").html(replyValue);
+						$("#rcount").text(result.length);
+					}
 				},
 				error: function(err) {
 					console.log("댓글 조회 실패!");
@@ -160,6 +190,38 @@
 				}
 			});
 		}
+		
+		function addReply() {
+			// alert($("#replyArea #content").val());
+			if($("#replyArea #content").val().trim().length > 0) {
+				// 댓글 추가 요청(ajax) : /spring/board/rinsert?replyContent=입력된내용&refBno=게시글번호&replyWriter=작성자
+				$.ajax({
+					url: "rinsert",
+					type: "post",
+					data: {replyContent: $("#replyArea #content").val(),
+							refBno: '${b.boardNo}',
+							replyWriter: '${loginUser.userId}'},
+					success: function(result) {
+						// 댓글 추가 성공 시, 입력창 부분을 초기화 댓글 목록 다시 조회
+						if(result === 'success') {
+							
+							$("#replyArea #content").val("");
+							selectReplyList();
+						} else {
+							// 댓글 추가 실패 시, '댓글 추가에 실패했습니다.' 메시지 출력
+							alert('댓글 추가에 실패했습니다.');
+						}
+						
+						},
+					error: function() {}
+				});
+			} else {
+				alert("내용 입력 후 추가 가능합니다.");
+			}
+			
+			
+		}
+		
 	</script>
 
     <%-- footer --%>

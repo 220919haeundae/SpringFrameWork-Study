@@ -31,5 +31,8 @@ public interface BoardService {
 	ArrayList<Reply> selectReplyList(int boardNo);
 	
 	/* 댓글 등록(작성) --> (ajax), C(insert) */
-	int insertReply(/* 댓글 관련 객체 */);
+	int insertReply(Reply reply);
+	
+	/* 게시글 top5 조회 */
+	public ArrayList<Board> selectBoardTop5();
 }
