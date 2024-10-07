@@ -6,9 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.spring.common.mailcheck.MailSendService;
 import com.kh.spring.member.model.vo.Member;
 import com.kh.spring.member.service.MemberService;
 
@@ -33,11 +36,13 @@ public class MemberController {
 	
 	private final MemberService mService;
 	private final BCryptPasswordEncoder bCrypt;
+	private final MailSendService mailService;
 	
 	@Autowired
-	public MemberController(MemberService ms, BCryptPasswordEncoder bCrypt) {
+	public MemberController(MemberService ms, BCryptPasswordEncoder bCrypt, MailSendService mailService) {
 		this.mService = ms;
 		this.bCrypt = bCrypt;
+		this.mailService = mailService;
 	}
 	
 	
@@ -173,6 +178,12 @@ public class MemberController {
 		}
 	}
 	
-	
+	@GetMapping("/mailCheck")
+	@ResponseBody
+	public String mailCheck(String email) {
+		System.out.println("이메일 인증 요청이 들어옴!");
+		System.out.println("이메일 인증 이메일 : " + email);
+		return mailService.joinEmail(email);
+	}
 	
 }
