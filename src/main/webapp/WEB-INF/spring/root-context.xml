@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
-http://www.springframework.org/schema/beans/spring-beans.xsd">
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
 
 	<!-- 
 		* root-context.xml : 서버 구동과 함께 web.xml 파일을 거쳐서 바로 읽혀지는 파일
@@ -12,7 +16,7 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
 	 <bean class="org.apache.commons.dbcp.BasicDataSource" id ="dataSource" destroy-method="close">
 	 	<property name="driverClassName" value= "oracle.jdbc.driver.OracleDriver"/>
 	 	<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"/>
-	 	<property name="username" value="C##spring"/>
+	 	<property name="username" value="c##spring"/>
 	 	<property name="password" value="spring"/>
 	 </bean>
 	 
@@ -51,5 +55,14 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
 		<property name="maxUploadSize" value="100000000"></property>
 		<property name="maxInMemorySize" value="100000000"></property>
 	</bean>
+	
+	<!-- AOP 관련 설정 -->
+	<!-- @Aspect, 하위 어노테이션 활성화 -->
+	<aop:aspectj-autoproxy />
+	
+	<!-- @Aspect를 스캔하기 위한 설정 -->
+	<context:component-scan base-package="com.kh.spring" use-default-filters="false">
+		<context:include-filter type ="annotation" expression="org.aspectj.lang.annotation.Aspect"/>
+	</context:component-scan>
 
 </beans>
